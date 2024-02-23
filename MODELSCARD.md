@@ -6,37 +6,37 @@ This project aims to build a model to predict property prices in Belgium. The mo
 ## Data
 The dataset consists of 75,508 properties in Belgium with the following features:
 <ul>
-    <li>id: Property ID (int)</li>
-    <li>price: Property price (float)</li>
-    <li>property_type: Property type (e.g., apartment, house, land) (string)</li>
-    <li>subproperty_type: Subproperty type (e.g., flat, studio, duplex) (string)</li>
-    <li>region: Region (e.g., Brussels, Flanders, Wallonia) (string)</li>
-    <li>province: Province (string)</li>
-    <li>locality: Locality (string)</li>
-    <li>zip_code: Zip code (string)</li>
-    <li>latitude: Latitude (coordinates) (float)</li>
-    <li>longitude: Longitude (coordinates) (float)</li>
-    <li>construction_year: Construction year (int)</li>
-    <li>total_area_sqm: Total area in square meters (float)</li>
-    <li>surface_land_sqm: Surface land in square meters (float)</li>
-    <li>nbr_frontages: Number of frontages (int)</li>
-    <li>nbr_bedrooms: Number of bedrooms (int)</li>
-    <li>equipped_kitchen: Equipped kitchen (bool)</li>
-    <li>terrace_sqm: Terrace area in square meters (float)</li>
-    <li>garden_sqm: Garden area in square meters (float)</li>
-    <li>state_building: State of the building (e.g., good, average, bad) (string)</li>
-    <li>primary_energy_consumption_sqm: Primary energy consumption per square meter (float)</li>
-    <li>epc: Energy performance certificate (string)</li>
-    <li>heating_type: Heating type (e.g., gas, oil, electricity) (string)</li>
-    <li>cadastral_income: Cadastral income (float)</li>
-    <li>fl_furnished: Furnished (bool)</li>
-    <li>fl_open_fire: Open fire (bool)</li>
-    <li>fl_terrace: Terrace (bool)</li>
-    <li>fl_garden: Garden (bool)</li>
-    <li>fl_swimming_pool: Swimming pool (bool)</li>
-    <li>fl_floodzone: Flood zone (bool)</li>
-    <li>fl_double_glazing: Double glazing (bool)</li>
-</ul>
+    <li><strong>id:</strong> Property ID (int)</li>
+    <li><strong>price:</strong> Property price (float)</li>
+    <li><strong>property_type:</strong> Property type (e.g., apartment, house, land) (string)</li>
+    <li><strong>subproperty_type:</strong> Subproperty type (e.g., flat, studio, duplex) (string)</li>
+    <li><strong>region:</strong> Region (e.g., Brussels, Flanders, Wallonia) (string)</li>
+    <li><strong>province:</strong> Province (string)</li>
+    <li><strong>locality:</strong> Locality (string)</li>
+    <li><strong>zip_code:</strong> Zip code (string)</li>
+    <li><strong>latitude:</strong> Latitude (coordinates) (float)</li>
+    <li><strong>longitude:</strong> Longitude (coordinates) (float)</li>
+    <li><strong>construction_year:</strong> Construction year (int)</li>
+    <li><strong>total_area_sqm:</strong> Total area in square meters (float)</li>
+    <li><strong>surface_land_sqm:</strong> Surface land in square meters (float)</li>
+    <li><strong>nbr_frontages:</strong> Number of frontages (int)</li>
+    <li><strong>nbr_bedrooms:</strong> Number of bedrooms (int)</li>
+    <li><strong>equipped_kitchen:</strong> Equipped kitchen (bool)</li>
+    <li><strong>terrace_sqm:</strong> Terrace area in square meters (float)</li>
+    <li><strong>garden_sqm:</strong> Garden area in square meters (float)</li>
+    <li><strong>state_building:</strong> State of the building (e.g., good, average, bad) (string)</li>
+    <li><strong>primary_energy_consumption_sqm:</strong> Primary energy consumption per square meter (float)</li>
+    <li><strong>epc:</strong> Energy performance certificate (string)</li>
+    <li><strong>heating_type:</strong> Heating type (e.g., gas, oil, electricity) (string)</li>
+    <li><strong>cadastral_income:</strong> Cadastral income (float)</li>
+    <li><strong>fl_furnished:</strong> Furnished (bool)</li>
+    <li><strong>fl_open_fire:</strong> Open fire (bool)</li>
+    <li><strong>fl_terrace:</strong> Terrace (bool)</li>
+    <li><strong>fl_garden:</strong> Garden (bool)</li>
+    <li><strong>fl_swimming_pool:</strong> Swimming pool (bool)</li>
+    <li><strong>fl_floodzone:</strong> Flood zone (bool)</li>
+    <li><strong>fl_double_glazing:</strong> Double glazing (bool)</li>
+  </ul>
 
 ## Model details
 We tested several models, including linear regression, random forest, and decision tree. The best performing model was a gradient boosting model with the following parameters:
