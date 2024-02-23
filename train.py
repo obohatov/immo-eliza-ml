@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import mean_absolute_error, root_mean_squared_error
 
 
 def train():
@@ -13,9 +14,9 @@ def train():
     data = pd.read_csv("data/properties.csv")
 
     # Define features to use
-    num_features = ["nbr_frontages"]
-    fl_features = ["fl_terrace"]
-    cat_features = ["equipped_kitchen"]
+    num_features = ["nbr_bedrooms", "total_area_sqm"]
+    fl_features = ["fl_swimming_pool"]
+    cat_features = ["equipped_kitchen"]  # Keep this for now
 
     # Split the data into features and target
     X = data[num_features + fl_features + cat_features]
@@ -64,8 +65,20 @@ def train():
     # Evaluate the model
     train_score = r2_score(y_train, model.predict(X_train))
     test_score = r2_score(y_test, model.predict(X_test))
+    
+    # Calculate MAE and RMSE
+    train_mae = mean_absolute_error(y_train, model.predict(X_train))
+    test_mae = mean_absolute_error(y_test, model.predict(X_test))
+    train_rmse = root_mean_squared_error(y_train, model.predict(X_train))
+    test_rmse = root_mean_squared_error(y_test, model.predict(X_test))
+
+    # Print the results
     print(f"Train R² score: {train_score}")
     print(f"Test R² score: {test_score}")
+    print(f"Train MAE: {train_mae}")
+    print(f"Test MAE: {test_mae}")
+    print(f"Train RMSE: {train_rmse}")
+    print(f"Test RMSE: {test_rmse}")
 
     # Save the model
     artifacts = {
