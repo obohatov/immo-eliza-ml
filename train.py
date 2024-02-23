@@ -14,9 +14,9 @@ def train():
     data = pd.read_csv("data/properties.csv")
 
     # Define features to use
-    num_features = ["nbr_bedrooms", "total_area_sqm"]
-    fl_features = ["fl_swimming_pool"]
-    cat_features = ["equipped_kitchen"]  # Keep this for now
+    num_features = ["nbr_bedrooms", "total_area_sqm", "surface_land_sqm", "nbr_frontages", "latitude", "terrace_sqm", "garden_sqm"]
+    fl_features = ["fl_swimming_pool", "fl_floodzone"]
+    cat_features = ["locality", "subproperty_type"] 
 
     # Split the data into features and target
     X = data[num_features + fl_features + cat_features]
