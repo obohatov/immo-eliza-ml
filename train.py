@@ -1,22 +1,27 @@
 import joblib
 import pandas as pd
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
+from sklearn.metrics import (
+  r2_score, 
+  mean_absolute_error, 
+  root_mean_squared_error
+)
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics import mean_absolute_error, root_mean_squared_error
-
+from sklearn.ensemble import GradientBoostingRegressor
 
 def train():
-    """Trains a linear regression model on the full dataset and stores output."""
+    """Trains a Gradient Boosting model on the dataset and stores output."""
     # Load the data
     data = pd.read_csv("data/properties.csv")
 
     # Define features to use
-    num_features = ["nbr_bedrooms", "total_area_sqm", "surface_land_sqm", "nbr_frontages", "latitude", "terrace_sqm", "garden_sqm"]
+    num_features = [
+       "nbr_bedrooms", "total_area_sqm", "surface_land_sqm", 
+       "nbr_frontages", "latitude", "terrace_sqm", "garden_sqm"
+       ]
     fl_features = ["fl_swimming_pool", "fl_floodzone"]
-    cat_features = ["locality", "subproperty_type"] 
+    cat_features = ["locality", "subproperty_type", "region"]
 
     # Split the data into features and target
     X = data[num_features + fl_features + cat_features]
@@ -41,58 +46,75 @@ def train():
 
     # Combine the numerical and one-hot encoded categorical columns
     X_train = pd.concat(
-        [
-            X_train[num_features + fl_features].reset_index(drop=True),
-            pd.DataFrame(X_train_cat, columns=enc.get_feature_names_out()),
+       [X_train[num_features + fl_features].reset_index(drop=True), 
+        pd.DataFrame(X_train_cat, columns=enc.get_feature_names_out()),
         ],
         axis=1,
-    )
+        )
 
     X_test = pd.concat(
-        [
-            X_test[num_features + fl_features].reset_index(drop=True),
-            pd.DataFrame(X_test_cat, columns=enc.get_feature_names_out()),
+       [X_test[num_features + fl_features].reset_index(drop=True),
+        pd.DataFrame(X_test_cat, columns=enc.get_feature_names_out()),
         ],
         axis=1,
-    )
+        )
 
+    # Print list of features used in the model
     print(f"Features: \n {X_train.columns.tolist()}")
 
-    # Train the model
-    model = LinearRegression()
-    model.fit(X_train, y_train)
+    # Train the Gradient Boosting model
+    gradient_boosting_model = GradientBoostingRegressor(
+       n_estimators=100, learning_rate=0.1, max_depth=3, random_state=42
+       )
+    gradient_boosting_model.fit(X_train, y_train)
 
     # Evaluate the model
-    train_score = r2_score(y_train, model.predict(X_train))
-    test_score = r2_score(y_test, model.predict(X_test))
-    
-    # Calculate MAE and RMSE
-    train_mae = mean_absolute_error(y_train, model.predict(X_train))
-    test_mae = mean_absolute_error(y_test, model.predict(X_test))
-    train_rmse = root_mean_squared_error(y_train, model.predict(X_train))
-    test_rmse = root_mean_squared_error(y_test, model.predict(X_test))
+    gradient_boosting_score = r2_score(
+       y_train, gradient_boosting_model.predict(X_train)
+       )
+    gradient_boosting_test_score = r2_score(
+       y_test, gradient_boosting_model.predict(X_test)
+       )
 
-    # Print the results
-    print(f"Train R² score: {train_score}")
-    print(f"Test R² score: {test_score}")
-    print(f"Train MAE: {train_mae}")
-    print(f"Test MAE: {test_mae}")
-    print(f"Train RMSE: {train_rmse}")
-    print(f"Test RMSE: {test_rmse}")
+    # Calculate MAE and RMSE
+    gradient_boosting_train_mae = mean_absolute_error(
+       y_train, gradient_boosting_model.predict(X_train)
+       )
+    gradient_boosting_test_mae = mean_absolute_error(
+       y_test, gradient_boosting_model.predict(X_test)
+       )
+    gradient_boosting_train_rmse = root_mean_squared_error(
+       y_train, gradient_boosting_model.predict(X_train)
+       )
+    gradient_boosting_test_rmse = root_mean_squared_error(
+       y_test, gradient_boosting_model.predict(X_test)
+       )
+    
+    # Print model performance
+    print("-" * 40)
+    print("Gradient Boosting Model:")
+    print("-" * 40)
+    print(f"{'Train R²':10} {gradient_boosting_score:10.4f}")
+    print(f"{'Test R²':10} {gradient_boosting_test_score:10.4f}")
+    print(f"{'Train MAE':10} {gradient_boosting_train_mae:10.4f}")
+    print(f"{'Test MAE':10} {gradient_boosting_test_mae:10.4f}")
+    print(f"{'Train RMSE':10} {gradient_boosting_train_rmse:10.4f}")
+    print(f"{'Test RMSE':10} {gradient_boosting_test_rmse:10.4f}")
 
     # Save the model
     artifacts = {
-        "features": {
-            "num_features": num_features,
-            "fl_features": fl_features,
-            "cat_features": cat_features,
-        },
-        "imputer": imputer,
-        "enc": enc,
-        "model": model,
-    }
+       "features": {
+          "num_features": num_features,
+          "fl_features": fl_features,
+          "cat_features": cat_features,
+          },
+       "imputer": imputer,
+       "enc": enc,
+       "model": gradient_boosting_model,
+       }
+
     joblib.dump(artifacts, "models/artifacts.joblib")
 
 
 if __name__ == "__main__":
-    train()
+  train()
